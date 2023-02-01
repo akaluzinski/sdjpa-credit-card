@@ -1,6 +1,7 @@
 package eu.kaluzinski.credit_card.repositories;
 
 import eu.kaluzinski.credit_card.domain.CreditCard;
+import eu.kaluzinski.credit_card.services.EncryptionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -17,7 +18,10 @@ class CreditCardRepositoryTest {
     final String CREDIT_CARD = "4744010848985281";
 
     @Autowired
-    CreditCardRepository creditCardRepository;
+    private CreditCardRepository creditCardRepository;
+
+    @Autowired
+    private EncryptionService encryptionService;
 
     @Test
     void shouldSaveCreditCard() {
