@@ -1,5 +1,6 @@
 package eu.kaluzinski.credit_card.domain;
 
+import eu.kaluzinski.credit_card.interceptors.EncodedString;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +13,7 @@ public class CreditCard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @EncodedString
     private String creditCardNumber;
 
     private String cvv;
