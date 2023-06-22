@@ -12,7 +12,6 @@ public class CreditCardJPACallback {
     @PrePersist
     @PreUpdate
     public void beforeInsertOrUpdate(CreditCard creditCard) {
-        System.out.println("beforeInsertOrUpdate");
         creditCard.setCreditCardNumber(getEncryptionService().encrypt(creditCard.getCreditCardNumber()));
     }
 
@@ -20,7 +19,6 @@ public class CreditCardJPACallback {
     @PostLoad
     @PostUpdate
     public void postLoad(CreditCard creditCard) {
-        System.out.println("postLoad");
         creditCard.setCreditCardNumber(getEncryptionService().decrypt(creditCard.getCreditCardNumber()));
     }
 
