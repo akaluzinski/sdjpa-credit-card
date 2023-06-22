@@ -2,11 +2,14 @@ package eu.kaluzinski.credit_card.domain;
 
 import eu.kaluzinski.credit_card.interceptors.EncodedString;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 
 @Entity
+@EntityListeners(CreditCardJPACallback.class)
 public class CreditCard {
 
     @Id
@@ -50,5 +53,10 @@ public class CreditCard {
 
     public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    @PrePersist
+    public void prePersistCallback() {
+        System.out.println("JPRA PrePersist ");
     }
 }
