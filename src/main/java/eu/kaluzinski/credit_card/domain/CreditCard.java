@@ -1,22 +1,20 @@
 package eu.kaluzinski.credit_card.domain;
 
-import eu.kaluzinski.credit_card.interceptors.EncodedString;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 
 @Entity
-@EntityListeners(CreditCardJPACallback.class)
 public class CreditCard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @EncodedString
+    @Convert(converter = CreditCardConverter.class)
     private String creditCardNumber;
 
     private String cvv;
