@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @SpringBootTest
 @ActiveProfiles("local")
@@ -41,6 +44,17 @@ class CreditCardRepositoryTest {
 
         assertThat(getRows(savedCreditCard.getId())).isEqualTo(encryptionService.encrypt(CREDIT_CARD_NUMBER));
         assertThat(fetchedCreditCard.getCreditCardNumber()).isEqualTo(CREDIT_CARD_NUMBER);
+    }
+
+    @Test
+    void shouldNotSaveNullishCreditCard() {
+        CreditCard creditCard = new CreditCard();
+        creditCard.setCreditCardNumber(null);
+        creditCard.setCvv("123");
+        creditCard.setExpirationDate("12/25");
+
+        assertThatExceptionOfType(JpaSystemException.class)
+                .isThrownBy(() -> creditCardRepository.saveAndFlush(creditCard));
     }
 
     private String getRows(Long id) {
